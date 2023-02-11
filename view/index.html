@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <fieldset>
+        <legend>To upload a single file and store in mongodb</legend>
+        <form method="post" enctype="multipart/form-data" id="form">
+            <input type="file" name="image" id="inputFile">
+            <button type="submit">Submit</button>
+            <div id="result">[Upload result will be displayed here]</div>
+        </form>
+    </fieldset>
+</body>
+<script>
+    const RESULT_DIV_SELECTOR = document.getElementById('result');
+
+    document.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const FORM_SELECTOR = document.getElementById('form');
+        const form = new FormData(FORM_SELECTOR);
+
+        const res = await fetch('http://localhost:3000/upload/single', {
+            method: 'post',
+            body: form,
+        }).then((response) => {
+            return response.json();
+        }).then((data) => {
+            RESULT_DIV_SELECTOR.innerHTML = data;
+        })
+    })
+</script>
+<style>
+    fieldset {
+        width: fit-content;
+        margin: 50px auto;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        width: max-content;
+        margin: 50px auto;
+    }
+</style>
+
+</html>
